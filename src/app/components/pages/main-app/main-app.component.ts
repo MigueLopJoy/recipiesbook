@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { IonRouterOutlet } from "@ionic/angular/standalone";
-import { addIcons } from "ionicons";
+import { IonRouterOutlet, IonContent } from "@ionic/angular/standalone";
+import { HeaderComponent } from '../../shared/header/header.component';
+import { NavComponent } from '../../shared/nav/nav.component';
 
 @Component({
   selector: 'app-main-app',
   standalone: true,
-  imports: [IonRouterOutlet, ],
+  imports: [IonContent, IonRouterOutlet, HeaderComponent, NavComponent],
   templateUrl: './main-app.component.html',
   styleUrls: ['./main-app.component.scss'],
 })
