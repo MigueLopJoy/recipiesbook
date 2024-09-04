@@ -1,4 +1,7 @@
 <app-header [title]="title"></app-header>
 <ion-content>
-  <p>EXPLORE WORKS</p>
+  <app-recipies-list [recipies]="recipies"></app-recipies-list>
+  <ion-button (click)="loadMore()" expand="block" fill="clear" shape="round">
+    Ver más
+  </ion-button>
 </ion-content>
