@@ -1,3 +1,53 @@
-<p>
-  login-form works!
-</p>
+<form [formGroup]="loginForm" (ngSubmit)="submit($event)" (keypress.enter)="submit($event)">
+
+  @if (email.errors && email.touched) {
+    @if (email.errors['required']) {
+      <div>
+        <p>Debes introducir el email</p>
+      </div>
+    } @else if (email.errors['email']) {
+      <div>
+        <p>Email incorrecto</p>
+      </div>
+    }
+  }
+
+  <ion-item>
+    <ion-icon slot="start" name="mail-outline"></ion-icon>
+    <ion-input type="text" [autocomplete]="true" label="Email" [formControl]="email" label-placement="floating"></ion-input>
+  </ion-item>
+
+  @if (password.errors && password.touched) {
+    @if (password.errors['required']) {
+      <div>
+        <p>Debes itnroducir la contraseña</p>
+      </div>
+    } @else if (password.errors['minLength']) {
+      <div>
+        <p>La contraseña debe tener un mínimo de 8 caracteres</p>
+      </div>
+    } @else if (password.errors['maxLength']) {
+      <div>
+        <p>La contraseña debe tener un máximo de 16 caracteres</p>
+      </div>
+    } @else if (password.errors['pattern']) {
+      <div>
+        <p>El formato de la contraseña no es válido</p>
+      </div>
+    }
+  }
+
+  <ion-item>
+    <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+    <ion-input [type]="inputType" [autocomplete]="true" label="Contraseña" [formControl]="password" label-placement="floating"></ion-input>
+    <ion-button (click)="togglePasswordDisplay()" slot="end" fill="clear" shape="round">
+      <ion-icon slot="icon-only" [name]="hide ? 'eye-outline' : 'eye-off-outline'"></ion-icon>
+    </ion-button>
+  </ion-item>
+
+  <ion-button type="submit" expand="block" shape="round" [disabled]="loginForm.invalid">
+    Login
+    <ion-icon slot="end" name="log-in-outline"></ion-icon>
+  </ion-button>
+
+</form>
