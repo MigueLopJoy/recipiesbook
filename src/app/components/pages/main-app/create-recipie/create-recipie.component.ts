@@ -3,8 +3,8 @@ import { CreateRecipieFormComponent } from './create-recipie-form/create-recipie
 import { RecipiesService } from '../../../../core/services/recipies/recipies.service';
 import { Recipie } from '../../../../core/model/recipies/recipie';
 import { HeaderComponent } from '../../../shared/header/header.component';
-import { addIcons } from "ionicons";
 import { IonContent } from "@ionic/angular/standalone";
+import { addIcons } from "ionicons";
 
 @Component({
   selector: 'app-create-recipie',
@@ -18,6 +18,8 @@ export class CreateRecipiePage {
   constructor(
     private recipiesService: RecipiesService
   ){}
+
+  title: string = 'Create Recipie';
 
   createRecipie(recipie: Recipie) {
     this.recipiesService.addRecipie(recipie)

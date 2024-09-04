@@ -1,19 +1,16 @@
 <form (ngSubmit)="onSubmit($event)" [formGroup]="recipeForm">
 
   <ion-item>
-    <ion-label>Título de la receta</ion-label>
     <ion-input type="text" formControlName="title" placeholder="Título de la receta" class="form-control"
       ngDefaultControl required></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label position="stacked">Descripción de la receta</ion-label>
     <ion-textarea formControlName="description" rows="4" placeholder="Describe tu receta" ngDefaultControl
       required></ion-textarea>
   </ion-item>
 
   <ion-item formArrayName="ingredients">
-    <ion-label position="stacked">Ingredientes</ion-label>
     <ion-button expand="full" fill="outline" type="button" (click)="addIngredient()">
       Añadir Ingrediente
     </ion-button>
@@ -33,7 +30,6 @@
 
 
   <ion-item formArrayName="steps">
-    <ion-label position="stacked">Pasos de preparación</ion-label>
     <ion-button expand="full" fill="outline" type="button" (click)="addStep()">
       Añadir Paso
     </ion-button>
@@ -61,6 +57,8 @@
       <ion-select-option value="postre">Postre</ion-select-option>
     </ion-select>
   </ion-item>
+
+  <app-upload-images (images)="setImage($event)"></app-upload-images>
 
   <ion-button expand="full" type="submit" [disabled]="recipeForm.invalid">
     Crear Receta

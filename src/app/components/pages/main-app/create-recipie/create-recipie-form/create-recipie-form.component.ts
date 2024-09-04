@@ -2,11 +2,13 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Recipie } from '../../../../../core/model/recipies/recipie';
 import { IonItem, IonLabel, IonButton, IonList, IonSelectOption } from "@ionic/angular/standalone";
+import { UploadImagesComponent } from './upload-images/upload-images.component';
+import { addIcons } from "ionicons";
 
 @Component({
   selector: 'app-create-recipie-form',
   standalone: true,
-  imports: [IonList, IonButton, IonLabel, IonItem, IonSelectOption, ReactiveFormsModule],
+  imports: [IonList, IonButton, IonLabel, IonItem, IonSelectOption, ReactiveFormsModule, UploadImagesComponent],
   templateUrl: './create-recipie-form.component.html',
   styleUrl: './create-recipie-form.component.scss'
 })
@@ -28,7 +30,7 @@ export class CreateRecipieFormComponent {
       ingredients: this.fb.array([this.createIngredient()]),
       steps: this.fb.array([this.createStep()]),
       category: ['', Validators.required],
-      images: [[]]
+      images: ['', Validators.required]
     });
   }
 
