@@ -7,7 +7,7 @@ export const MAIN_APP_ROUTES: Routes = [
             children: [
                 {
                     path: '',
-                    redirectTo: 'explore',
+                    redirectTo: 'create-recipe',
                     pathMatch: 'full',
                 },
                 {

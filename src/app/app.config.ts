@@ -6,6 +6,7 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
+import { getAuth, provideAuth } from '@angular/fire/auth';
 
 
 export const appConfig: ApplicationConfig = {
@@ -14,6 +15,12 @@ export const appConfig: ApplicationConfig = {
     provideIonicAngular({}),
     provideFirebaseApp(() => initializeApp(environment.firebase)), 
     provideFirestore(() => getFirestore()), 
-    provideStorage(() => getStorage())
+    provideStorage(
+      () => getStorage()), 
+      provideIonicAngular({}), 
+      provideFirebaseApp(() => initializeApp(environment.firebase)), 
+      provideAuth(() => getAuth()), 
+      provideFirestore(() => getFirestore()), 
+      provideStorage(() => getStorage())
   ]
 };
