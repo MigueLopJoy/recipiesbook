@@ -7,10 +7,10 @@ import { NavComponent } from '../../shared/nav/nav.component';
   selector: 'app-main-app',
   standalone: true,
   imports: [IonContent, IonRouterOutlet, HeaderComponent, NavComponent],
-  templateUrl: './main-app.component.html',
-  styleUrls: ['./main-app.component.scss'],
+  templateUrl: './main-app.page.html',
+  styleUrls: ['./main-app.page.scss'],
 })
-export class MainAppComponent  implements OnInit {
+export class MainAppPage  implements OnInit {
 
   constructor() { }
 

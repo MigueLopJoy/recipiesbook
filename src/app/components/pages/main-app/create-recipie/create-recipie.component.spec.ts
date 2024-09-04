@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { AuthComponent } from './auth.component';
+import { CreateRecipieComponent } from './create-recipie.component';
 
-describe('AuthComponent', () => {
-  let component: AuthComponent;
-  let fixture: ComponentFixture<AuthComponent>;
+describe('CreateRecipieComponent', () => {
+  let component: CreateRecipieComponent;
+  let fixture: ComponentFixture<CreateRecipieComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ AuthComponent ],
+      declarations: [ CreateRecipieComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AuthComponent);
+    fixture = TestBed.createComponent(CreateRecipieComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

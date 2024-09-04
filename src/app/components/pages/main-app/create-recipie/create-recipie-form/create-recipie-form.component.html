@@ -1,0 +1,69 @@
+<form (ngSubmit)="onSubmit($event)" [formGroup]="recipeForm">
+
+  <ion-item>
+    <ion-label>Título de la receta</ion-label>
+    <ion-input type="text" formControlName="title" placeholder="Título de la receta" class="form-control"
+      ngDefaultControl required></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Descripción de la receta</ion-label>
+    <ion-textarea formControlName="description" rows="4" placeholder="Describe tu receta" ngDefaultControl
+      required></ion-textarea>
+  </ion-item>
+
+  <ion-item formArrayName="ingredients">
+    <ion-label position="stacked">Ingredientes</ion-label>
+    <ion-button expand="full" fill="outline" type="button" (click)="addIngredient()">
+      Añadir Ingrediente
+    </ion-button>
+
+    <ion-list>
+      @for (ingredient of ingredients.controls; track ingredient; let i = $index;) {
+      <ion-item [formGroupName]="i" class="ingredient-item">
+        <ion-input type="text" formControlName="name" placeholder="Ingrediente" ngDefaultControl></ion-input>
+        <ion-button color="danger" type="button" (click)="removeIngredient(i)">
+          Eliminar
+        </ion-button>
+      </ion-item>
+      }
+    </ion-list>
+
+  </ion-item>
+
+
+  <ion-item formArrayName="steps">
+    <ion-label position="stacked">Pasos de preparación</ion-label>
+    <ion-button expand="full" fill="outline" type="button" (click)="addStep()">
+      Añadir Paso
+    </ion-button>
+    <ion-list>
+      @for (step of steps.controls; track step; let i = $index) {
+      <ion-item [formGroupName]="i">
+        <ion-textarea rows="2" formControlName="description" placeholder="Paso de preparación"
+          ngDefaultControl></ion-textarea>
+        <ion-button color="danger" type="button" (click)="removeStep(i)">
+          Eliminar
+        </ion-button>
+      </ion-item>
+      }
+    </ion-list>
+  </ion-item>
+
+
+  <ion-item>
+    <ion-label>Categoría de la receta</ion-label>
+    <ion-select formControlName="category" (ionChange)="setCategory($event)" placeholder="Selecciona una categoría"
+      interface="popover" ngDefaultControl>
+      <ion-select-option value="desayuno">Desayuno</ion-select-option>
+      <ion-select-option value="almuerzo">Almuerzo</ion-select-option>
+      <ion-select-option value="cena">Cena</ion-select-option>
+      <ion-select-option value="postre">Postre</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-button expand="full" type="submit" [disabled]="recipeForm.invalid">
+    Crear Receta
+  </ion-button>
+
+</form>

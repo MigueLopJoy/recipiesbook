@@ -4,10 +4,10 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-explore',
   standalone: true,
   imports: [],
-  templateUrl: './explore.component.html',
-  styleUrls: ['./explore.component.scss'],
+  templateUrl: './explore.page.html',
+  styleUrls: ['./explore.page.scss'],
 })
-export class ExploreComponent  implements OnInit {
+export class ExplorePage  implements OnInit {
 
   constructor() { }
 
