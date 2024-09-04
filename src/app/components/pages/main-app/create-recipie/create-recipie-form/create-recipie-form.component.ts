@@ -8,7 +8,7 @@ import { IonItem, IonLabel, IonButton, IonList, IonSelectOption } from "@ionic/a
   standalone: true,
   imports: [IonList, IonButton, IonLabel, IonItem, IonSelectOption, ReactiveFormsModule],
   templateUrl: './create-recipie-form.component.html',
-  styleUrl: './create-recipie-form.component.css'
+  styleUrl: './create-recipie-form.component.scss'
 })
 export class CreateRecipieFormComponent {
 

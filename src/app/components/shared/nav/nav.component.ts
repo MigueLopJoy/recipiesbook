@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
-import { IonTabButton, IonTabs, IonIcon, IonTabBar } from "@ionic/angular/standalone";
+import { IonTabButton, IonIcon, IonTabBar, IonTabs } from "@ionic/angular/standalone";
 import { addIcons } from 'ionicons';
-import { search, playCircle, personCircleOutline } from 'ionicons/icons';
+import { search, personCircleOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-nav',
   standalone: true,
-  imports: [IonTabBar, IonIcon, IonTabs, IonTabButton ],
+  imports: [IonTabs, IonTabBar, IonIcon, IonTabButton ],
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss']
 })
 export class NavComponent {
   constructor() {
-    addIcons({search, playCircle, personCircleOutline});
+    addIcons({search,personCircleOutline});
   }
 }

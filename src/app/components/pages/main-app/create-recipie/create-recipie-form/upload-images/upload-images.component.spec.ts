@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { CreateRecipieFormComponent } from './create-recipie-form.component';
+import { UploadImagesComponent } from './upload-images.component';
 
-describe('CreateRecipieFormComponent', () => {
-  let component: CreateRecipieFormComponent;
-  let fixture: ComponentFixture<CreateRecipieFormComponent>;
+describe('UploadImagesComponent', () => {
+  let component: UploadImagesComponent;
+  let fixture: ComponentFixture<UploadImagesComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreateRecipieFormComponent ],
+      declarations: [ UploadImagesComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(CreateRecipieFormComponent);
+    fixture = TestBed.createComponent(UploadImagesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
