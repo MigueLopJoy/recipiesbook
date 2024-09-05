@@ -1,4 +1,64 @@
 <app-header [title]="title"></app-header>
+
 <ion-content>
-  <p>PROFILE WORKS</p>
+  <!-- User Information -->
+  <div class="profile-info">
+    <img src="https://via.placeholder.com/100" alt="User Avatar" class="avatar" />
+    <h2>miguelopjoy</h2>
+    <div class="profile-actions">
+      <ion-button fill="outline" shape="round">Editar Perfil</ion-button>
+    </div>
+  </div>
+
+  <!-- Tabs Menu -->
+  
+
+  
+  
+  <div>
+    <ion-tab-bar>
+      <ion-tab-button (click)="loadUserPosts()">
+        <ion-icon name="grid-outline"></ion-icon>
+      </ion-tab-button>
+      <ion-tab-button (click)="loadLikedPosts()">
+        <ion-icon name="heart-outline"></ion-icon>
+      </ion-tab-button>
+    </ion-tab-bar>
+
+
+    <div>
+      @if(recipies && recipies.length > 0) {
+        <ion-grid>
+          @for (row of chunkedImages; track row) {
+            <ion-row>
+              @for (image of row; track image) {
+                <ion-col size="4">
+                  <img [src]="image[0]" />
+                </ion-col>
+              }
+            </ion-row>
+          }
+        </ion-grid>
+      }
+    </div>
+
+    <!-- Tab for Saved Posts -->
+    <!-- <div tab="saved">
+      <ion-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="4"><img src="https://via.placeholder.com/150" alt="Saved 1" /></ion-col>
+            <ion-col size="4"><img src="https://via.placeholder.com/150" alt="Saved 2" /></ion-col>
+            <ion-col size="4"><img src="https://via.placeholder.com/150" alt="Saved 3" /></ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="4"><img src="https://via.placeholder.com/150" alt="Saved 4" /></ion-col>
+            <ion-col size="4"><img src="https://via.placeholder.com/150" alt="Saved 5" /></ion-col>
+            <ion-col size="4"><img src="https://via.placeholder.com/150" alt="Saved 6" /></ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-content>
+    </div> -->
+
+  </div>
 </ion-content>

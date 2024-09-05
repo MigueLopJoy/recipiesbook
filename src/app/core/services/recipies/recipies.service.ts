@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Recipie } from '../../model/recipies/recipie';
-import { Firestore } from '@angular/fire/firestore';
+import { Firestore, where } from '@angular/fire/firestore';
 import { 
   addDoc, 
   collection, 
@@ -35,7 +35,9 @@ export class RecipiesService {
       : getDocs(query(this.recipiesRef, limit(perPage))));
   }
 
-
+  getUserRecipies(authorId: string): Observable<QuerySnapshot> {
+    return from(getDocs(query(this.recipiesRef, where('authorId', '==', authorId))));
+  }
 
 
 }

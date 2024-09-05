@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Auth, authState, User,  } from '@angular/fire/auth';
-import { from, Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,5 +13,11 @@ export class AuthService {
 
   authenticate(): Observable<User | null> {
     return authState(this.auth);
+  }
+
+  getUserId(): Observable<string | null> {
+    return this.authenticate().pipe(
+      map((user: User | null) => user ? user.uid : null)
+    );
   }
 }

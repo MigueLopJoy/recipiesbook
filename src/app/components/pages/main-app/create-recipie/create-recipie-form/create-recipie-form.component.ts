@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Recipie } from '../../../../../core/model/recipies/recipie';
+import { Recipie, RecipieData } from '../../../../../core/model/recipies/recipie';
 import { IonItem, IonLabel, IonButton, IonList, IonSelectOption } from "@ionic/angular/standalone";
 import { UploadImagesComponent } from './upload-images/upload-images.component';
 import { addIcons } from "ionicons";
@@ -18,7 +18,7 @@ export class CreateRecipieFormComponent {
     private fb: FormBuilder
   ) {}
 
-  @Output() recipie: EventEmitter<Recipie> = new EventEmitter<Recipie>();
+  @Output() recipie: EventEmitter<RecipieData> = new EventEmitter<RecipieData>();
   recipeForm!: FormGroup;
   submitted!: boolean;
 

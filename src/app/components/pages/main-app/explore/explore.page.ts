@@ -4,7 +4,6 @@ import { IonContent, IonButton } from "@ionic/angular/standalone";
 import { RecipiesListComponent } from './recipies-list/recipies-list.component';
 import { StoredRecipie } from '../../../../core/model/recipies/recipie';
 import { RecipiesService } from '../../../../core/services/recipies/recipies.service';
-import { addIcons } from "ionicons";
 import { DocumentSnapshot, QueryDocumentSnapshot, QuerySnapshot } from 'firebase/firestore';
 
 @Component({
@@ -63,6 +62,7 @@ export class ExplorePage  implements OnInit {
         ingredients: recipieData['ingredients'],
         steps: recipieData['steps'],
         images: recipieData['images'],
+        authorId: recipieData['authorId']
       }
   }
 
