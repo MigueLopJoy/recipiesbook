@@ -4,12 +4,10 @@ import { RegisterRequest } from '../../../../core/model/auth/register/register-r
 import { UtilsService } from '../../../../core/services/utils/utils.service';
 import { RegisterService } from '../../../../core/services/auth/register/register.service';
 import { addIcons } from "ionicons";
-import { personAddOutline } from "ionicons/icons";
 import { IonIcon, IonButton } from "@ionic/angular/standalone";
 import { UserCredential } from 'firebase/auth';
 import { UsersService } from '../../../../core/services/users/users.service';
 import { Router } from '@angular/router';
-import { ShareRegisterDataService } from '../../../../core/services/share-data/share-register/share-register-data.service';
 
 @Component({
   selector: 'app-register',
@@ -24,7 +22,6 @@ export class RegisterComponent  implements OnInit {
     private registerService: RegisterService,
     private utilsService: UtilsService,
     private usersService: UsersService,
-    private shareRegisterDataService: ShareRegisterDataService,
     private router: Router
   ) {
       addIcons({}); }
@@ -37,8 +34,7 @@ export class RegisterComponent  implements OnInit {
         this.registerService.register(request).subscribe({
           next: (response: UserCredential) => {            
             this.addUser(request, response.user.uid);
-            this.router.navigate(['/login']);
-            this.shareRegisterDataService.notifyRegistrationSuccess();
+            this.router.navigate(['/']);
           }, 
           error: (error: Error) => {
             this.utilsService.presentToast({

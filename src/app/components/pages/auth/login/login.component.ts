@@ -6,10 +6,11 @@ import { personAddOutline } from "ionicons/icons";
 import { LoginService } from '../../../../core/services/auth/login/login.service';
 import { LoginRequest } from '../../../../core/model/auth/login/login-request';
 import { IonButton, IonIcon } from "@ionic/angular/standalone";
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UserCredential } from 'firebase/auth';
 import { UtilsService } from '../../../../core/services/utils/utils.service';
-import { ShareRegisterDataService } from '../../../../core/services/share-data/share-register/share-register-data.service';
+import { User } from '@angular/fire/auth';
+import { AuthService } from '../../../../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +25,8 @@ export class LoginComponent  implements OnInit {
     private shareTitlesService: ShareTitlesService,
     private loginService: LoginService,
     private utilsService: UtilsService,
-    private shareRegisterDataService: ShareRegisterDataService
+    private router: Router,
+    private authService: AuthService
   ) {
       addIcons({personAddOutline});
     }
@@ -37,8 +39,8 @@ export class LoginComponent  implements OnInit {
       next: (loading: HTMLIonLoadingElement) => {
         loading.present();
         this.loginService.login(loginRequest).subscribe({
-          next: (res: UserCredential) => {
-            console.log(res)
+          next: (credential: UserCredential) => {
+            this.authenticate(credential);
           },
           error: (error: Error) => {
             this.utilsService.presentToast({
@@ -55,18 +57,17 @@ export class LoginComponent  implements OnInit {
     })
   }
 
-
-  getRegisterNotification(): void {
-    this.shareRegisterDataService.registrationSuccess.subscribe({
-      next: () => {
-        this.registerSuccess = true;
-      }
+  authenticate(credential: UserCredential): void {
+    this.authService.authenticate().subscribe({
+      next: (user: User | null) => {
+        if (user == credential.user)
+          this.router.navigate(['/'])
+        }
     })
   }
 
   ngOnInit() {
     this.shareTitlesService.emitTitle(this.pageTitle);    
-    this.getRegisterNotification();  
   }
 
 }

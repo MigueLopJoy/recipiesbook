@@ -5,6 +5,7 @@ import { Recipie } from '../../../../core/model/recipies/recipie';
 import { HeaderComponent } from '../../../shared/header/header.component';
 import { IonContent } from "@ionic/angular/standalone";
 import { addIcons } from "ionicons";
+import { DocumentReference } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-create-recipie',
@@ -22,7 +23,13 @@ export class CreateRecipiePage {
   title: string = 'Create Recipie';
 
   createRecipie(recipie: Recipie) {
-    this.recipiesService.addRecipie(recipie)
-      .then(response => console.log(response));
+
+
+
+    this.recipiesService.addRecipie(recipie).subscribe({
+      next: (res: DocumentReference) => {
+        console.log(res)
+      }
+    })
   }
 }

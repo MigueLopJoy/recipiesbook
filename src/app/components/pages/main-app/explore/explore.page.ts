@@ -26,13 +26,19 @@ export class ExplorePage  implements OnInit {
   lastDocument!: DocumentSnapshot;
 
   async getRecipies(): Promise<void> {
-    let recipiesData: QuerySnapshot = await this.recipiesService.getRecipies(5);
-    this.recipies = this.createRecipiesArr(recipiesData);
+    this.recipiesService.getRecipies(5).subscribe({
+      next: (recipiesData: QuerySnapshot) => {
+        this.recipies = this.createRecipiesArr(recipiesData);
+      }
+    })
   }
 
   async loadMore(): Promise<void> {
-    let recipiesData: QuerySnapshot = await this.recipiesService.getRecipies(5, this.lastDocument);
-    this.recipies.push(...this.createRecipiesArr(recipiesData));
+    this.recipiesService.getRecipies(5, this.lastDocument).subscribe({
+      next: (recipiesData: QuerySnapshot) => {
+        this.recipies.push(...this.createRecipiesArr(recipiesData));
+      }
+    })
   }
 
   createRecipiesArr(recipiesData: QuerySnapshot): StoredRecipie[] {
