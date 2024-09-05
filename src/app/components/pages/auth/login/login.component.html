@@ -1,8 +1,15 @@
 <div class="form-container">
+
+  @if (registerSuccess) {
+  <div>
+    <p>Su cuenta ha sido creada con éxito. Por favor, inicie sesión.</p>
+  </div>
+  }
+
   <app-login-form (login)="login($event)"></app-login-form>
 
-  
-  <ion-button expand="block" fill="outline" shape="round" routerLink="'/register'">
+
+  <ion-button expand="block" fill="outline" shape="round" routerLink="/register">
     Regístrate
     <ion-icon slot="end" name="person-add-outline"></ion-icon>
   </ion-button>

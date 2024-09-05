@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Recipie, StoredRecipie } from '../../model/recipies/recipie';
+import { Recipie } from '../../model/recipies/recipie';
 import { Firestore } from '@angular/fire/firestore';
 import { 
   addDoc, 
@@ -11,8 +11,8 @@ import {
   startAfter, 
   limit, 
   QuerySnapshot,
-  QueryDocumentSnapshot
 } from 'firebase/firestore';
+import { from, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -25,14 +25,14 @@ export class RecipiesService {
 
   private readonly recipiesRef = collection(this.firestore, 'recipies');
 
-  addRecipie(body: Recipie): Promise<DocumentReference> {
-    return addDoc(this.recipiesRef, body);
+  addRecipie(body: Recipie): Observable<DocumentReference> {
+    return from(addDoc(this.recipiesRef, body));
   }
 
-  getRecipies(perPage: number, startDoc?: DocumentSnapshot): Promise<QuerySnapshot> {
-    return startDoc
+  getRecipies(perPage: number, startDoc?: DocumentSnapshot): Observable<QuerySnapshot> {
+    return from(startDoc
       ? getDocs(query(this.recipiesRef, startAfter(startDoc), limit(perPage)))
-      : getDocs(query(this.recipiesRef, limit(perPage)));
+      : getDocs(query(this.recipiesRef, limit(perPage))));
   }
 
 

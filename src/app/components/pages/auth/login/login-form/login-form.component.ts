@@ -18,8 +18,7 @@ export class LoginFormComponent {
   constructor(
     private fb: FormBuilder
   ) {
-      addIcons({mailOutline,lockClosedOutline,logInOutline,eyeOffOutline, eyeOutline,}); 
-    }
+      addIcons({mailOutline,lockClosedOutline,logInOutline});}
 
   @Output() login: EventEmitter<LoginRequest> = new EventEmitter<LoginRequest>();
   loginForm!: FormGroup;
@@ -37,8 +36,7 @@ export class LoginFormComponent {
       ]]
     })
   }
-
-
+  
   get email(): FormControl {
     return this.loginForm.controls['email'] as FormControl;
   }
@@ -69,5 +67,6 @@ export class LoginFormComponent {
 
   ngOnInit() {
     this.initializeForm();
+    addIcons({mailOutline,lockClosedOutline,logInOutline,eyeOffOutline, eyeOutline,}); 
   }
 }

@@ -1,3 +1,140 @@
-<p>
-  register-form works!
-</p>
+<form [formGroup]="registerForm" (ngSubmit)="submit($event)" (keypress.enter)="submit($event)">
+
+  @if (firstname && firstname.errors && firstname.touched) {
+  @if (firstname.errors['required']) {
+  <div>
+    <p>Debes introducir un nombre</p>
+  </div>
+  } @else if (firstname.errors['minLength'] || firstname.errors['maxLength']) {
+  <div>
+    <p>La cantidad de catacteres introducida no es válida</p>
+  </div>
+  } @else if (firstname.errors['pattern']) {
+  <div>
+    <p>El nombre introducido no es válido</p>
+  </div>
+  }
+  }
+
+  <ion-item>
+    <ion-icon slot="start" name="person-outline"></ion-icon>
+    <ion-input type="text" autocomplete="password" label="Nombre" [formControl]="firstname"
+      label-placement="floating"></ion-input>
+  </ion-item>
+
+
+  @if (lastname && lastname.errors && lastname.touched) {
+  @if (lastname.errors['required']) {
+  <div>
+    <p>Debes introducir tus apellidos</p>
+  </div>
+  } @else if (lastname.errors['minLength'] || lastname.errors['maxLength']) {
+  <div>
+    <p>La cantidad de catacteres introducida no es válida</p>
+  </div>
+  } @else if (lastname.errors['pattern']) {
+  <div>
+    <p>Los apellidos introducidos no son válidos</p>
+  </div>
+  }
+  }
+
+  <ion-item>
+    <ion-icon slot="start" name="person-outline"></ion-icon>
+    <ion-input type="text" autocomplete="lastname" label="Apellidos" [formControl]="lastname"
+      label-placement="floating"></ion-input>
+  </ion-item>
+
+
+  @if (email && email.errors && email.touched) {
+  @if (email.errors['required']) {
+  <div>
+    <p>Debes introducir el email</p>
+  </div>
+  } @else if (email.errors['email']) {
+  <div>
+    <p>El email introducido no es válido</p>
+  </div>
+  }
+  }
+
+  <ion-item>
+    <ion-icon slot="start" name="mail-outline"></ion-icon>
+    <ion-input type="email" autocomplete="email" label="Email" [formControl]="email"
+      label-placement="floating"></ion-input>
+  </ion-item>
+
+
+  @if (password && password.errors && password.touched) {
+  @if (password.errors['required']) {
+  <div>
+    <p>Debes itnroducir la contraseña</p>
+  </div>
+  } @else if (password.errors['minLength']) {
+  <div>
+    <p>La contraseña debe tener un mínimo de 8 caracteres</p>
+  </div>
+  } @else if (password.errors['maxLength']) {
+  <div>
+    <p>La contraseña debe tener un máximo de 16 caracteres</p>
+  </div>
+  } @else if (password.errors['pattern']) {
+  <div>
+    <p>
+      La contraseña debe contener almenos una letra minúscula, una letra mayúscula, un número y alguno de los
+      sigueintes caracteres: '!#$%^&*()-_+=]'
+    </p>
+  </div>
+  }
+  }
+
+  <ion-item>
+    <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+    <ion-input [type]="inputType" label="Contraseña" [formControl]="password" label-placement="floating"></ion-input>
+    <ion-button (click)="togglePasswordDisplay()" slot="end" fill="clear" shape="round">
+      <ion-icon slot="icon-only" [name]="hide ? 'eye-outline' : 'eye-off-outline'"></ion-icon>
+    </ion-button>
+  </ion-item>
+
+
+  @if (confirmPassword && confirmPassword.errors && confirmPassword.touched) {
+  @if (confirmPassword.errors['required']) {
+  <div>
+    <p>Debes confirmar la contraseña</p>
+  </div>
+  } @else if (confirmPassword.errors['minLength']) {
+  <div>
+    <p>La contraseña debe tener un mínimo de 8 caracteres</p>
+  </div>
+  } @else if (confirmPassword.errors['maxLength']) {
+  <div>
+    <p>La contraseña debe tener un máximo de 16 caracteres</p>
+  </div>
+  } @else if (confirmPassword.errors['pattern']) {
+  <div>
+    <p>
+      La contraseña debe contener almenos una letra minúscula, una letra mayúscula, un número y alguno de los
+      sigueintes caracteres: '!#$%^&*()-_+=]'
+    </p>
+  </div>
+  } @else if (confirmPassword.errors['passwordMismatch']) {
+  <div>
+    <p>Las contraseñas no coinciden</p>
+  </div>
+  }
+  }
+  <ion-item>
+    <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+    <ion-input [type]="inputType" label="Confirmar Contraseña" [formControl]="confirmPassword"
+      label-placement="floating"></ion-input>
+    <ion-button (click)="togglePasswordDisplay()" slot="end" fill="clear" shape="round">
+      <ion-icon slot="icon-only" [name]="hide ? 'eye-outline' : 'eye-off-outline'"></ion-icon>
+    </ion-button>
+  </ion-item>
+
+  <ion-button type="submit" expand="block" shape="round" [disabled]="registerForm.invalid">
+    Completar Registro
+    <ion-icon slot="end" name="log-in-outline"></ion-icon>
+  </ion-button>
+
+</form>
