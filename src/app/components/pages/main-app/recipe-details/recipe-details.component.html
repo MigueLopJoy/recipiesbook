@@ -1,0 +1,63 @@
+<app-header [title]="title"></app-header>
+
+<ion-content>
+
+  <!-- Recipe Title -->
+
+  <ion-title>{{ recipe.title }}</ion-title>
+
+  @if (author) {
+  <ion-card>
+
+    <ion-card-content class="author-section">
+      <ion-avatar slot="start">
+        <img src="https://via.placeholder.com/100" alt="Author Profile Image" />
+      </ion-avatar>
+      <ion-label>
+        <h2>{{ author.userName }}</h2>
+      </ion-label>
+    </ion-card-content>
+  </ion-card>
+  }
+
+  <!-- Image of the Recipe -->
+  <ion-img [src]="recipe.images[0]" alt="Recipe Image" class="recipe-image"></ion-img>
+
+  <!-- Recipe Category -->
+  <ion-chip color="secondary" class="category-chip">
+    {{ recipe.category }}
+  </ion-chip>
+
+  <!-- Recipe Description -->
+  <ion-card>
+    <ion-card-content>
+      <ion-text>{{ recipe.description }}</ion-text>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Ingredients List -->
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Ingredients</ion-label>
+    </ion-list-header>
+    @for (ingredient of recipe.ingredients; track ingredient) {
+    <ion-item>
+      <ion-icon name="leaf-outline" slot="start"></ion-icon>
+      <ion-label>{{ ingredient }}</ion-label>
+    </ion-item>
+    }
+  </ion-list>
+
+  <!-- Steps -->
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Steps</ion-label>
+    </ion-list-header>
+    @for (step of recipe.steps; track step; let i = $index) {
+    <ion-item>
+      <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+      <ion-label>Step {{ i + 1 }}: {{ step }}</ion-label>
+    </ion-item>
+    }
+  </ion-list>
+</ion-content>

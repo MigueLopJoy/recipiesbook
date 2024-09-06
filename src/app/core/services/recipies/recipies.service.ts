@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Recipie } from '../../model/recipies/recipie';
+import { Recipe } from '../../model/recipes/recipe';
 import { Firestore, where } from '@angular/fire/firestore';
 import { 
   addDoc, 
@@ -23,9 +23,9 @@ export class RecipiesService {
     private firestore: Firestore 
   ) { }
 
-  private readonly recipiesRef = collection(this.firestore, 'recipies');
+  private readonly recipiesRef = collection(this.firestore, 'recipes');
 
-  addRecipie(body: Recipie): Observable<DocumentReference> {
+  addRecipie(body: Recipe): Observable<DocumentReference> {
     return from(addDoc(this.recipiesRef, body));
   }
 

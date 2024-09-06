@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CreateRecipieFormComponent } from './create-recipie-form/create-recipie-form.component';
 import { RecipiesService } from '../../../../core/services/recipies/recipies.service';
-import { Recipie, RecipieData } from '../../../../core/model/recipies/recipie';
+import { Recipe, RecipeData } from '../../../../core/model/recipes/recipe';
 import { HeaderComponent } from '../../../shared/header/header.component';
 import { IonContent } from "@ionic/angular/standalone";
 import { DocumentReference } from '@angular/fire/firestore';
@@ -24,7 +24,7 @@ export class CreateRecipiePage {
   title: string = 'Create Recipie';
 
 
-  createRecipie(recipieData: RecipieData): void {
+  createRecipie(recipieData: RecipeData): void {
     this.authService.getUserId().subscribe({
       next: (uid: string | null) => {
         if (uid) {
@@ -41,7 +41,7 @@ export class CreateRecipiePage {
   }
 
 
-  buildRecipie(recipieData: RecipieData, authorId: string): Recipie {
+  buildRecipie(recipieData: RecipeData, authorId: string): Recipe {
     return {
       title: recipieData.title,
       description: recipieData.description,

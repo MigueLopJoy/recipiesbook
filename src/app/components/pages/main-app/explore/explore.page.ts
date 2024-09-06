@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from '../../../shared/header/header.component';
 import { IonContent, IonButton } from "@ionic/angular/standalone";
 import { RecipiesListComponent } from './recipies-list/recipies-list.component';
-import { StoredRecipie } from '../../../../core/model/recipies/recipie';
+import { StoredRecipe } from '../../../../core/model/recipes/recipe';
 import { RecipiesService } from '../../../../core/services/recipies/recipies.service';
 import { DocumentSnapshot, QueryDocumentSnapshot, QuerySnapshot } from 'firebase/firestore';
 
@@ -21,7 +21,7 @@ export class ExplorePage  implements OnInit {
 
   title: string = 'Explorar Recetas';
 
-  recipies!: StoredRecipie[];
+  recipies!: StoredRecipe[];
   lastDocument!: DocumentSnapshot;
 
   async getRecipies(): Promise<void> {
@@ -40,19 +40,19 @@ export class ExplorePage  implements OnInit {
     })
   }
 
-  createRecipiesArr(recipiesData: QuerySnapshot): StoredRecipie[] {
-    let recipies: StoredRecipie[] = [];
+  createRecipiesArr(recipiesData: QuerySnapshot): StoredRecipe[] {
+    let recipies: StoredRecipe[] = [];
     
     recipiesData.forEach((recipieDoc: QueryDocumentSnapshot) => {
       this.lastDocument = recipieDoc;
-      let recipie: StoredRecipie = this.convertToStoredRecipies(recipieDoc);
+      let recipie: StoredRecipe = this.convertToStoredRecipies(recipieDoc);
       recipies.push(recipie);
     });
 
     return recipies;
   }
   
-  convertToStoredRecipies(recipieDoc: QueryDocumentSnapshot): StoredRecipie {
+  convertToStoredRecipies(recipieDoc: QueryDocumentSnapshot): StoredRecipe {
       const recipieData = recipieDoc.data();
       return {
         id: recipieDoc.id,

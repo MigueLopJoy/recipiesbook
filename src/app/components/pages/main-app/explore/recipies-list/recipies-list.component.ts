@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { IonList, IonCard, IonCardTitle, IonCardContent, IonCardHeader } from "@ionic/angular/standalone";
-import { StoredRecipie } from '../../../../../core/model/recipies/recipie';
+import { StoredRecipe } from '../../../../../core/model/recipes/recipe';
 import { Router } from '@angular/router';
 
 @Component({
@@ -16,7 +16,7 @@ export class RecipiesListComponent  implements OnInit {
     private router: Router
   ) { }
 
-  @Input() recipies!: StoredRecipie[];
+  @Input() recipies!: StoredRecipe[];
 
   openRecipie(id: string) {
     this.router.navigate([`/recipie-details/${id}`]);

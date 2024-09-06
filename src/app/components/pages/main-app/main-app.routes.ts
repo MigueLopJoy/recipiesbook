@@ -21,6 +21,10 @@ export const MAIN_APP_ROUTES: Routes = [
                 {
                     path: 'create-recipie', 
                     loadComponent: () => import('./create-recipie/create-recipie.component').then(c => c.CreateRecipiePage)
+                },
+                {
+                    path: 'recipe-details', 
+                    loadComponent: () => import('./recipe-details/recipe-details.component').then(c => c.RecipeDetailsComponent)
                 }
             ]
         }

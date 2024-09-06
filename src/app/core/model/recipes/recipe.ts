@@ -1,14 +1,14 @@
 import { Category } from "./categories"
 
-export interface StoredRecipie extends Recipie {
+export interface StoredRecipe extends Recipe {
     id: string
 }
 
-export interface Recipie extends RecipieData {
+export interface Recipe extends RecipeData {
     authorId: string
 }
 
-export interface RecipieData {
+export interface RecipeData {
     title: string,
     description: string,
     category: Category,

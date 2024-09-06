@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { getDownloadURL, ref, Storage, uploadBytes} from '@angular/fire/storage';
 import { StorageReference } from 'firebase/storage';
+import { Recipe } from '../../model/recipes/recipe';
+import { RecipiesService } from '../recipies/recipies.service';
+import { AuthService } from '../auth/auth.service';
 
 
 @Injectable({
@@ -9,7 +12,9 @@ import { StorageReference } from 'firebase/storage';
 export class StorageService {
 
   constructor(
-    private storage: Storage
+    private storage: Storage,
+    private recipesService: RecipiesService,
+    private authService: AuthService
   ) { }
 
   createImageRef(folder: string, fileName: string): StorageReference {
@@ -38,7 +43,7 @@ export class StorageService {
   }
 
 
-  // async fetchAndAddRecipies() {
+  // async fetchAndAddRecipies(uid:string) {
   //   const imageNames: string[] = [
   //     'borscht.jpg', 'carbonara.jpg', 'ceviche-pescado.jpg', 'churros-chocolate.jpg',
   //     'curry-pollo.jpg', 'empanadas-carne.jpg', 'ensalada-cesar.jpg', 'falafel.jpg',
@@ -46,7 +51,7 @@ export class StorageService {
   //     'ramen-pollo.jpg', 'sushi-salmon.jpg', 'tacos-carne.jpg'
   //   ];
 
-  //   const recipies: Recipie[] = [
+  //   const recipies: Recipe[] = [
   //     {
   //       title: "Borscht",
   //       description: "Una sopa tradicional de Europa del Este hecha de remolacha, con un sabor dulce y agrio, generalmente servida caliente con una cucharada de crema agria.",
@@ -267,7 +272,7 @@ export class StorageService {
   //       if (authorId) {
   //         for (let i = 0; i < recipies.length; i++) {
   //           const downloadURL = await this.getURL(ref(this.storage, `recipies/${imageNames[i]}`)),
-  //             recipie: Recipie = {
+  //             recipie: Recipe = {
   //             title: recipies[i].title,
   //             description: recipies[i].description,
   //             category: recipies[i].category,
@@ -277,7 +282,7 @@ export class StorageService {
   //             authorId
   //           };
       
-  //           this.recipiesService.addRecipie(recipie);
+  //           this.recipesService.addRecipie(recipie);
   //         }
   //       }
   //     }

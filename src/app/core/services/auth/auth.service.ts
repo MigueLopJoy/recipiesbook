@@ -15,6 +15,10 @@ export class AuthService {
     return authState(this.auth);
   }
 
+  getAuthUser(): Observable<User | null> {
+    return user(this.auth);
+  }
+
   getUserId(): Observable<string | null> {
     return this.authenticate().pipe(
       map((user: User | null) => user ? user.uid : null)

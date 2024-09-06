@@ -5,10 +5,11 @@ import { addIcons } from "ionicons";
 import { gridOutline, heartOutline } from "ionicons/icons";
 import { RecipiesService } from '../../../../core/services/recipies/recipies.service';
 import { AuthService } from '../../../../core/services/auth/auth.service';
-import { QueryDocumentSnapshot, QuerySnapshot } from '@angular/fire/firestore';
-import { StoredRecipie } from '../../../../core/model/recipies/recipie';
+import { DocumentData, QueryDocumentSnapshot, QuerySnapshot } from '@angular/fire/firestore';
+import { StoredRecipe } from '../../../../core/model/recipes/recipe';
 import { UtilsService } from '../../../../core/services/utils/utils.service';
 import { Router } from '@angular/router';
+import { ShareRecipesService } from '../../../../core/services/share-data/share-recipes/share-recipes.service';
 
 @Component({
   selector: 'app-profile',
@@ -23,16 +24,16 @@ export class ProfilePage  implements OnInit {
     private authService: AuthService,
     private recipiesService: RecipiesService,
     private utilsService: UtilsService,
-    private router: Router
+    private router: Router,
+    private shareRecipesService: ShareRecipesService
   ) {
    addIcons({gridOutline,heartOutline}); 
   }
 
   title: string = 'Perfil de Usuario';
   section: number = 1;
-  recipies!: StoredRecipie[];
-  images!: string[][];
-  chunkedImages!: string[][][];
+  recipes!: StoredRecipe[];
+  chunkedRecipes!: StoredRecipe[][];
 
   loadUserPosts() {
     this.utilsService.loading().subscribe({
@@ -43,16 +44,15 @@ export class ProfilePage  implements OnInit {
             if (uId) {
               this.recipiesService.getUserRecipies(uId).subscribe({
                 next: (response: QuerySnapshot) => {
-                  this.recipies = this.formatResponse(response, uId);
-                  this.images = this.getImagesArr(this.recipies);
-                  this.chunkedImages = this.chunkImagesArr(this.images);
-                  loading.dismiss();
+                  this.handleResponse(response, uId);
+                  this.chunkRecipesArr(this.recipes);
                 }
               })
     
             }
           }
         });
+        loading.dismiss();
       }
     })
   }
@@ -61,36 +61,32 @@ export class ProfilePage  implements OnInit {
 
   }
 
-  getImagesArr(recipies: StoredRecipie[]): string[][] {
-    let images = recipies.map((recipie: StoredRecipie) => {
-      return recipie.images;
-    })
-    return images;
-  }
-
-  chunkImagesArr(images: string[][]): string[][][] {
-    const result: string[][][] = [];
-    for (let i = 0; i < images.length; i += 3) {
-      result.push(images.slice(i, i + 3));
+  chunkRecipesArr(recipes: StoredRecipe[]): void {
+    const result: StoredRecipe[][] = [];
+    for (let i = 0; i < recipes.length; i += 3) {
+      result.push(recipes.slice(i, i + 3));
     }
-    return result;
+    this.chunkedRecipes = result;
   }
   
 
-  formatResponse(response: QuerySnapshot, authorId: string): StoredRecipie[] {
-    return response.docs.map((doc: QueryDocumentSnapshot) => {
-      const data = doc.data();
-      return {
-        id: doc.id,
-        title: data['title'],
-        description: data['description'],
-        category: data['category'],
-        ingredients: data['ingredients'],
-        steps: data['steps'],
-        images: data['images'],
-        authorId
-      };
+  handleResponse(response: QuerySnapshot, authorId: string): void {
+    let recipes: StoredRecipe[] = [];
+    response.docs.forEach((doc: QueryDocumentSnapshot) => {  
+      const data: DocumentData = doc.data(),
+        recipe: StoredRecipe = {
+          id: doc.id,
+          title: data['title'],
+          description: data['description'],
+          category: data['category'],
+          ingredients: data['ingredients'],
+          steps: data['steps'],
+          images: data['images'],
+          authorId
+        }
+      recipes.push(recipe);
     });
+    this.recipes = recipes;
   }
 
   logout() {
@@ -103,6 +99,11 @@ export class ProfilePage  implements OnInit {
 
   editProfile(): void {
 
+  }
+
+  viewDetails(recipe: StoredRecipe): void {
+    this.shareRecipesService.emitRecipe(recipe);
+    this.router.navigate(['/recipe-details']);
   }
 
   ngOnInit() {
