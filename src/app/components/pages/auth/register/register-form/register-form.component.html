@@ -46,6 +46,29 @@
   </ion-item>
 
 
+  @if (userName && userName.errors && userName.touched) {
+  @if (userName.errors['required']) {
+  <div>
+    <p>Debes introducir un nombre de usuario</p>
+  </div>
+  } @else if (userName.errors['minLength'] || userName.errors['maxLength']) {
+  <div>
+    <p>La longitud del nombre de usuario no es correcta</p>
+  </div>
+  } @else if (userName.errors['pattern']) {
+  <div>
+    <p>El nombre de usuario no es válido</p>
+  </div>
+  }
+  }
+
+  <ion-item>
+    <ion-icon slot="start" name="person-outline"></ion-icon>
+    <ion-input type="text" autocomplete="userName" label="Nombre de usuario" [formControl]="userName"
+      label-placement="floating"></ion-input>
+  </ion-item>
+
+
   @if (email && email.errors && email.touched) {
   @if (email.errors['required']) {
   <div>

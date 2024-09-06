@@ -7,10 +7,7 @@ import { LoginService } from '../../../../core/services/auth/login/login.service
 import { LoginRequest } from '../../../../core/model/auth/login/login-request';
 import { IonButton, IonIcon } from "@ionic/angular/standalone";
 import { Router, RouterLink } from '@angular/router';
-import { UserCredential } from 'firebase/auth';
 import { UtilsService } from '../../../../core/services/utils/utils.service';
-import { User } from '@angular/fire/auth';
-import { AuthService } from '../../../../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +23,6 @@ export class LoginComponent  implements OnInit {
     private loginService: LoginService,
     private utilsService: UtilsService,
     private router: Router,
-    private authService: AuthService
   ) {
       addIcons({personAddOutline});
     }
@@ -39,8 +35,8 @@ export class LoginComponent  implements OnInit {
       next: (loading: HTMLIonLoadingElement) => {
         loading.present();
         this.loginService.login(loginRequest).subscribe({
-          next: (credential: UserCredential) => {
-            this.authenticate(credential);
+          next: () => {
+            this.router.navigate(['/'])
           },
           error: (error: Error) => {
             this.utilsService.presentToast({
@@ -54,15 +50,6 @@ export class LoginComponent  implements OnInit {
         })
         loading.dismiss();
       }
-    })
-  }
-
-  authenticate(credential: UserCredential): void {
-    this.authService.authenticate().subscribe({
-      next: (user: User | null) => {
-        if (user == credential.user)
-          this.router.navigate(['/'])
-        }
     })
   }
 

@@ -1,20 +1,19 @@
 <app-header [title]="title"></app-header>
 
 <ion-content>
-  <!-- User Information -->
   <div class="profile-info">
     <img src="https://via.placeholder.com/100" alt="User Avatar" class="avatar" />
     <h2>miguelopjoy</h2>
     <div class="profile-actions">
-      <ion-button fill="outline" shape="round">Editar Perfil</ion-button>
+      <div class="">
+        <ion-button fill="outline" shape="round" (click)="editProfile()">Editar Perfil</ion-button>
+      </div>
+      <div class="">
+        <ion-button shape="round" (click)="logout()">Cerrar sesión</ion-button>
+      </div>
     </div>
   </div>
 
-  <!-- Tabs Menu -->
-  
-
-  
-  
   <div>
     <ion-tab-bar>
       <ion-tab-button (click)="loadUserPosts()">
@@ -28,37 +27,23 @@
 
     <div>
       @if(recipies && recipies.length > 0) {
-        <ion-grid>
-          @for (row of chunkedImages; track row) {
-            <ion-row>
-              @for (image of row; track image) {
-                <ion-col size="4">
-                  <img [src]="image[0]" />
-                </ion-col>
-              }
-            </ion-row>
+      <ion-grid>
+        @for (row of chunkedImages; track row) {
+        <ion-row>
+          @for (image of row; track image) {
+          <ion-col size="4">
+            <img [src]="image[0]" />
+          </ion-col>
           }
-        </ion-grid>
+        </ion-row>
+        }
+      </ion-grid>
+      } @else {
+      <div class="">
+        <p>Todavía no has creado ninguna receta</p>
+      </div>
       }
     </div>
-
-    <!-- Tab for Saved Posts -->
-    <!-- <div tab="saved">
-      <ion-content>
-        <ion-grid>
-          <ion-row>
-            <ion-col size="4"><img src="https://via.placeholder.com/150" alt="Saved 1" /></ion-col>
-            <ion-col size="4"><img src="https://via.placeholder.com/150" alt="Saved 2" /></ion-col>
-            <ion-col size="4"><img src="https://via.placeholder.com/150" alt="Saved 3" /></ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col size="4"><img src="https://via.placeholder.com/150" alt="Saved 4" /></ion-col>
-            <ion-col size="4"><img src="https://via.placeholder.com/150" alt="Saved 5" /></ion-col>
-            <ion-col size="4"><img src="https://via.placeholder.com/150" alt="Saved 6" /></ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-content>
-    </div> -->
 
   </div>
 </ion-content>

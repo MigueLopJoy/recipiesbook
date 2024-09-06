@@ -41,6 +41,12 @@ export class RegisterFormComponent  implements OnInit {
         Validators.maxLength(100),
         Validators.pattern(/^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+(?: [A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)?$/)
       ]],
+      userName: ['', [
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(12),
+        Validators.pattern(/^[a-zA-Z0-9](?:[._]?[a-zA-Z0-9])*$/)
+      ]],
       email: ['', [
         Validators.required, 
         Validators.email
@@ -68,6 +74,10 @@ export class RegisterFormComponent  implements OnInit {
     return this.registerForm.controls['lastname'] as FormControl;
   }
 
+  get userName(): FormControl {
+    return this.registerForm.controls['userName'] as FormControl;
+  }
+
   get email(): FormControl {
     return this.registerForm.controls['email'] as FormControl;
   }
@@ -92,11 +102,12 @@ export class RegisterFormComponent  implements OnInit {
     
     if (this.registerForm.invalid) return;
 
-    const { firstname, lastname, email, password } = this.registerForm.value;
+    const { firstname, lastname, userName, email, password } = this.registerForm.value;
 
     this.register.emit({
       firstname: firstname || '',
       lastname: lastname || '',
+      userName: userName || '',
       email: email || '',
       password: password || '',
     })

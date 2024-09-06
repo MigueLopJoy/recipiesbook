@@ -56,6 +56,7 @@ export class RegisterComponent  implements OnInit {
       uid: uid,
       firstname: request.firstname,
       lastname: request.lastname,
+      userName: request.userName,
       email: request.email
     })
   }

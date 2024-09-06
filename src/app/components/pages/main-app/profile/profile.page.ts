@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonContent, IonHeader, IonButton, IonTabBar, IonTabButton, IonIcon, IonTabs, IonCol, IonGrid, IonRow, IonItem } from "@ionic/angular/standalone";
+import { IonContent, IonButton, IonTabBar, IonTabButton, IonIcon, IonCol, IonGrid, IonRow, IonItem } from "@ionic/angular/standalone";
 import { HeaderComponent } from '../../../shared/header/header.component';
 import { addIcons } from "ionicons";
 import { gridOutline, heartOutline } from "ionicons/icons";
@@ -8,11 +8,12 @@ import { AuthService } from '../../../../core/services/auth/auth.service';
 import { QueryDocumentSnapshot, QuerySnapshot } from '@angular/fire/firestore';
 import { StoredRecipie } from '../../../../core/model/recipies/recipie';
 import { UtilsService } from '../../../../core/services/utils/utils.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [IonItem, IonRow, IonGrid, IonCol, IonTabs, IonIcon, IonTabButton, IonTabBar, IonButton, IonHeader, IonContent, HeaderComponent],
+  imports: [IonItem, IonRow, IonGrid, IonCol, IonIcon, IonTabButton, IonTabBar, IonButton, IonContent, HeaderComponent],
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
 })
@@ -21,7 +22,8 @@ export class ProfilePage  implements OnInit {
   constructor(
     private authService: AuthService,
     private recipiesService: RecipiesService,
-    private utilsService: UtilsService
+    private utilsService: UtilsService,
+    private router: Router
   ) {
    addIcons({gridOutline,heartOutline}); 
   }
@@ -89,6 +91,18 @@ export class ProfilePage  implements OnInit {
         authorId
       };
     });
+  }
+
+  logout() {
+    this.authService.logout().subscribe({
+      next: () => {
+        this.router.navigate(['/auth']);
+      }
+    });
+  }
+
+  editProfile(): void {
+
   }
 
   ngOnInit() {
