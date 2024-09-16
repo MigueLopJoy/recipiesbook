@@ -1,73 +1,78 @@
 import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from '../../../shared/header/header.component';
 import { IonContent, IonButton } from "@ionic/angular/standalone";
-import { RecipiesListComponent } from './recipies-list/recipies-list.component';
 import { StoredRecipe } from '../../../../core/model/recipes/recipe';
-import { RecipiesService } from '../../../../core/services/recipies/recipies.service';
 import { DocumentSnapshot, QueryDocumentSnapshot, QuerySnapshot } from 'firebase/firestore';
+import { RecipesService } from '../../../../core/services/recipes/recipes.service';
+import { RecipesListComponent } from './recipes-list/recipes-list.component';
+import { ShareRecipesService } from '../../../../core/services/share-data/share-recipes/share-recipes.service';
 
 @Component({
   selector: 'app-explore',
   standalone: true,
-  imports: [IonButton, IonContent, HeaderComponent, RecipiesListComponent],
+  imports: [IonButton, IonContent, HeaderComponent, RecipesListComponent],
   templateUrl: './explore.page.html',
   styleUrls: ['./explore.page.scss'],
 })
 export class ExplorePage  implements OnInit {
 
   constructor(
-    private recipiesService: RecipiesService
+    private recipesService: RecipesService,
+    private shareRecipesService: ShareRecipesService
   ) { }
 
   title: string = 'Explorar Recetas';
 
-  recipies!: StoredRecipe[];
+  recipes!: StoredRecipe[];
   lastDocument!: DocumentSnapshot;
 
-  async getRecipies(): Promise<void> {
-    this.recipiesService.getRecipies(5).subscribe({
-      next: (recipiesData: QuerySnapshot) => {
-        this.recipies = this.createRecipiesArr(recipiesData);
+  getRecipes(): void {
+    this.recipesService.getRecipes(5).subscribe({
+      next: (recipesData: QuerySnapshot) => {
+        this.recipes = this.createRecipesArr(recipesData);
+        this.shareRecipesService.clearRecipes();
+        this.shareRecipesService.setRecipes(this.recipes);
       }
     })
   }
 
-  async loadMore(): Promise<void> {
-    this.recipiesService.getRecipies(5, this.lastDocument).subscribe({
-      next: (recipiesData: QuerySnapshot) => {
-        this.recipies.push(...this.createRecipiesArr(recipiesData));
+  loadMore(): void {
+    this.recipesService.getRecipes(5, this.lastDocument).subscribe({
+      next: (recipesData: QuerySnapshot) => {
+        this.recipes.push(...this.createRecipesArr(recipesData));
+        this.shareRecipesService.pushRecipes(this.recipes);
       }
     })
   }
 
-  createRecipiesArr(recipiesData: QuerySnapshot): StoredRecipe[] {
-    let recipies: StoredRecipe[] = [];
+  createRecipesArr(recipesData: QuerySnapshot): StoredRecipe[] {
+    let recipes: StoredRecipe[] = [];
     
-    recipiesData.forEach((recipieDoc: QueryDocumentSnapshot) => {
-      this.lastDocument = recipieDoc;
-      let recipie: StoredRecipe = this.convertToStoredRecipies(recipieDoc);
-      recipies.push(recipie);
+    recipesData.forEach((recipeDoc: QueryDocumentSnapshot) => {
+      this.lastDocument = recipeDoc;
+      let recipe: StoredRecipe = this.convertToStoredRecipes(recipeDoc);
+      recipes.push(recipe);
     });
 
-    return recipies;
+    return recipes;
   }
   
-  convertToStoredRecipies(recipieDoc: QueryDocumentSnapshot): StoredRecipe {
-      const recipieData = recipieDoc.data();
+  convertToStoredRecipes(recipeDoc: QueryDocumentSnapshot): StoredRecipe {
+      const recipeData = recipeDoc.data();
       return {
-        id: recipieDoc.id,
-        title: recipieData['title'],
-        description: recipieData['description'],
-        category: recipieData['category'],
-        ingredients: recipieData['ingredients'],
-        steps: recipieData['steps'],
-        images: recipieData['images'],
-        authorId: recipieData['authorId']
+        id: recipeDoc.id,
+        title: recipeData['title'],
+        description: recipeData['description'],
+        category: recipeData['category'],
+        ingredients: recipeData['ingredients'],
+        steps: recipeData['steps'],
+        images: recipeData['images'],
+        authorId: recipeData['authorId']
       }
   }
 
   ngOnInit() {
-    this.getRecipies();
+    this.getRecipes();
   }
 
 }

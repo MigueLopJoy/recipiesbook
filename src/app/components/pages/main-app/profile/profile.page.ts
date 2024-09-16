@@ -1,28 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { IonContent, IonButton, IonTabBar, IonTabButton, IonIcon, IonCol, IonGrid, IonRow, IonItem } from "@ionic/angular/standalone";
+import { IonContent, IonButton, IonTabBar, IonTabButton, IonIcon, IonCol, IonGrid, IonRow, IonItem, IonToolbar } from "@ionic/angular/standalone";
 import { HeaderComponent } from '../../../shared/header/header.component';
 import { addIcons } from "ionicons";
 import { gridOutline, heartOutline } from "ionicons/icons";
-import { RecipiesService } from '../../../../core/services/recipies/recipies.service';
 import { AuthService } from '../../../../core/services/auth/auth.service';
 import { DocumentData, QueryDocumentSnapshot, QuerySnapshot } from '@angular/fire/firestore';
 import { StoredRecipe } from '../../../../core/model/recipes/recipe';
 import { UtilsService } from '../../../../core/services/utils/utils.service';
 import { Router } from '@angular/router';
 import { ShareRecipesService } from '../../../../core/services/share-data/share-recipes/share-recipes.service';
+import { User } from 'firebase/auth';
+import { RecipesService } from '../../../../core/services/recipes/recipes.service';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [IonItem, IonRow, IonGrid, IonCol, IonIcon, IonTabButton, IonTabBar, IonButton, IonContent, HeaderComponent],
+  imports: [IonToolbar, IonItem, IonRow, IonGrid, IonCol, IonIcon, IonTabButton, IonTabBar, IonButton, IonContent, HeaderComponent],
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
 })
-export class ProfilePage  implements OnInit {
+export class ProfilePage {
 
   constructor(
     private authService: AuthService,
-    private recipiesService: RecipiesService,
+    private recipesService: RecipesService,
     private utilsService: UtilsService,
     private router: Router,
     private shareRecipesService: ShareRecipesService
@@ -39,16 +40,17 @@ export class ProfilePage  implements OnInit {
     this.utilsService.loading().subscribe({
       next: (loading: HTMLIonLoadingElement) => {
         loading.present();
-        this.authService.getUserId().subscribe({
-          next: (uId: string | null) => {
-            if (uId) {
-              this.recipiesService.getUserRecipies(uId).subscribe({
+        this.authService.getAuthUser().subscribe({
+          next: (user: User | null) => {
+            if (user) {
+              this.recipesService.getUserRecipes(user.uid).subscribe({
                 next: (response: QuerySnapshot) => {
-                  this.handleResponse(response, uId);
+                  this.recipes = this.buildRecipesArr(response, user.uid);
                   this.chunkRecipesArr(this.recipes);
+                  this.shareRecipesService.clearRecipes();
+                  this.shareRecipesService.setRecipes(this.recipes);
                 }
               })
-    
             }
           }
         });
@@ -70,11 +72,10 @@ export class ProfilePage  implements OnInit {
   }
   
 
-  handleResponse(response: QuerySnapshot, authorId: string): void {
-    let recipes: StoredRecipe[] = [];
-    response.docs.forEach((doc: QueryDocumentSnapshot) => {  
-      const data: DocumentData = doc.data(),
-        recipe: StoredRecipe = {
+  buildRecipesArr(response: QuerySnapshot, authorId: string): StoredRecipe[] {
+    return response.docs.map((doc: QueryDocumentSnapshot) => {  
+      const data: DocumentData = doc.data()
+      return {
           id: doc.id,
           title: data['title'],
           description: data['description'],
@@ -84,9 +85,7 @@ export class ProfilePage  implements OnInit {
           images: data['images'],
           authorId
         }
-      recipes.push(recipe);
     });
-    this.recipes = recipes;
   }
 
   logout() {
@@ -102,11 +101,10 @@ export class ProfilePage  implements OnInit {
   }
 
   viewDetails(recipe: StoredRecipe): void {
-    this.shareRecipesService.emitRecipe(recipe);
-    this.router.navigate(['/recipe-details']);
+    this.router.navigate(['/recipe-details', recipe.id]);
   }
 
-  ngOnInit() {
+  ionViewWillEnter() {
     this.loadUserPosts();
   }
 

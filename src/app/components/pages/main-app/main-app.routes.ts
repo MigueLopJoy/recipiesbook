@@ -19,11 +19,15 @@ export const MAIN_APP_ROUTES: Routes = [
                     loadComponent: () => import('./profile/profile.page').then(c => c.ProfilePage)
                 },
                 {
-                    path: 'create-recipie', 
-                    loadComponent: () => import('./create-recipie/create-recipie.component').then(c => c.CreateRecipiePage)
+                    path: 'create-recipe', 
+                    loadComponent: () => import('./handle-recipes/create-recipe/create-recipe.component').then(c => c.CreateRecipePage)
                 },
                 {
-                    path: 'recipe-details', 
+                    path: 'edit-recipe/:id', 
+                    loadComponent: () => import('./handle-recipes/edit-recipe/edit-recipe.component').then(c => c.EditRecipeComponent)
+                },
+                {
+                    path: 'recipe-details/:id', 
                     loadComponent: () => import('./recipe-details/recipe-details.component').then(c => c.RecipeDetailsComponent)
                 }
             ]

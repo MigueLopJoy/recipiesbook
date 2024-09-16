@@ -51,17 +51,27 @@
     <ion-label>Categoría de la receta</ion-label>
     <ion-select formControlName="category" (ionChange)="setCategory($event)" placeholder="Selecciona una categoría"
       interface="popover" ngDefaultControl>
-      <ion-select-option value="desayuno">Desayuno</ion-select-option>
-      <ion-select-option value="almuerzo">Almuerzo</ion-select-option>
-      <ion-select-option value="cena">Cena</ion-select-option>
-      <ion-select-option value="postre">Postre</ion-select-option>
+      @for (category of categories; track category) {
+      <ion-select-option [value]="category">{{category}}</ion-select-option>
+      }
     </ion-select>
   </ion-item>
 
-  <app-upload-images (images)="setImage($event)"></app-upload-images>
+  <app-upload-images (uploeadedImages)="setImages($event)" [images]="images"></app-upload-images>
 
+  @if (isEdit) {
+  <ion-buttons slot="start">
+    <ion-button expand="full" type="submit" (click)="confirm($event)" [disabled]="recipeForm.invalid">
+      Confirmar
+    </ion-button>
+    <ion-button expand="full" color="danger" (click)="cancel()">
+      Cancelar
+    </ion-button>
+  </ion-buttons>
+  } @else {
   <ion-button expand="full" type="submit" [disabled]="recipeForm.invalid">
     Crear Receta
   </ion-button>
+  }
 
 </form>

@@ -4,22 +4,22 @@ import { StoredRecipe } from '../../../../../core/model/recipes/recipe';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-recipies-list',
+  selector: 'app-recipes-list',
   standalone: true,
   imports: [IonCardHeader, IonCardContent, IonCardTitle, IonCard, IonList, ],
-  templateUrl: './recipies-list.component.html',
-  styleUrls: ['./recipies-list.component.scss'],
+  templateUrl: './recipes-list.component.html',
+  styleUrls: ['./recipes-list.component.scss'],
 })
-export class RecipiesListComponent  implements OnInit {
+export class RecipesListComponent  implements OnInit {
 
   constructor(
     private router: Router
   ) { }
 
-  @Input() recipies!: StoredRecipe[];
+  @Input() recipes!: StoredRecipe[];
 
   openRecipie(id: string) {
-    this.router.navigate([`/recipie-details/${id}`]);
+    this.router.navigate([`/recipe-details/`, id]);
   }
 
   ngOnInit() {}

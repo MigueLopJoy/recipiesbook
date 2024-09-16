@@ -17,7 +17,7 @@ export class AuthGuard {
     canActivate(
         route: ActivatedRouteSnapshot, 
         state: RouterStateSnapshot
-    ): Observable<boolean> | Promise<boolean> | boolean {
+    ): Observable<boolean> | boolean {
         return this.authService.authenticate().pipe(
             map((user: User | null) => {
                 if (user) return true;

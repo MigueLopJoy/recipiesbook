@@ -1,3 +1,7 @@
+@if (images) {
+<ion-img [src]="images[0]" alt="Recipe Image" class="recipe-image"></ion-img>
+}
+
 <ion-item>
   <ion-input type="file" (change)="onFileSelected($event)" multiple></ion-input>
 </ion-item>

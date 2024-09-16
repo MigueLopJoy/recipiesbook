@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { getDownloadURL, ref, Storage, uploadBytes} from '@angular/fire/storage';
 import { StorageReference } from 'firebase/storage';
-import { Recipe } from '../../model/recipes/recipe';
-import { RecipiesService } from '../recipies/recipies.service';
 import { AuthService } from '../auth/auth.service';
+import { RecipesService } from '../recipes/recipes.service';
+import { Recipe } from '../../model/recipes/recipe';
+import { User } from 'firebase/auth';
 
 
 @Injectable({
@@ -13,7 +14,7 @@ export class StorageService {
 
   constructor(
     private storage: Storage,
-    private recipesService: RecipiesService,
+    private recipesService: RecipesService,
     private authService: AuthService
   ) { }
 
@@ -21,7 +22,7 @@ export class StorageService {
     return ref(this.storage, `${folder}/${Date.now()}_${fileName}`);
   }
 
-  async uploadRecipieImage(file: File, folder: string): Promise<string> {
+  async uploadRecipeImage(file: File, folder: string): Promise<string> {
     try {
       const imageRef: StorageReference = this.createImageRef(folder, file.name);
       
@@ -43,7 +44,7 @@ export class StorageService {
   }
 
 
-  // async fetchAndAddRecipies(uid:string) {
+  // async fetchAndAddRecipies() {
   //   const imageNames: string[] = [
   //     'borscht.jpg', 'carbonara.jpg', 'ceviche-pescado.jpg', 'churros-chocolate.jpg',
   //     'curry-pollo.jpg', 'empanadas-carne.jpg', 'ensalada-cesar.jpg', 'falafel.jpg',
@@ -267,22 +268,22 @@ export class StorageService {
   //     }
   //   ];
 
-  //   this.authService.getUserId().subscribe({
-  //     next: async (authorId: string | null) => {
-  //       if (authorId) {
+  //   this.authService.getAuthUser().subscribe({
+  //     next: async (author: User | null) => {
+  //       if (author) {
   //         for (let i = 0; i < recipies.length; i++) {
   //           const downloadURL = await this.getURL(ref(this.storage, `recipies/${imageNames[i]}`)),
-  //             recipie: Recipe = {
+  //             recipe: Recipe = {
   //             title: recipies[i].title,
   //             description: recipies[i].description,
   //             category: recipies[i].category,
   //             ingredients: recipies[i].ingredients,
   //             steps: recipies[i].steps,
   //             images: [downloadURL],
-  //             authorId
+  //             authorId: author.uid
   //           };
       
-  //           this.recipesService.addRecipie(recipie);
+  //           this.recipesService.addRecipe(recipe);
   //         }
   //       }
   //     }

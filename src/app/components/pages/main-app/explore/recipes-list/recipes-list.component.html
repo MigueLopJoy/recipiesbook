@@ -1,0 +1,12 @@
+<ion-list>
+  @for (recipe of recipes; track recipe) {
+  <ion-card (click)="openRecipie(recipe.id)">
+    <img alt="Silhouette of mountains" src={{recipe.images}} />
+    <ion-card-header>
+      <ion-card-title>{{recipe.title}}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>{{recipe.description}}</ion-card-content>
+  </ion-card>
+  }
+</ion-list>

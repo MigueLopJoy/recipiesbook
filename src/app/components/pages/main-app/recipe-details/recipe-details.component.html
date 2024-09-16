@@ -1,5 +1,23 @@
 <app-header [title]="title"></app-header>
 
+
+@if (isUserRecipe) {
+<ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-button (click)="edit()">
+      <ion-icon slot="start" name="create-outline"></ion-icon>
+      Editar
+    </ion-button>
+
+    <ion-button id="present-alert" expand="block" fill="clear" shape="round">
+      <ion-icon slot="start" name="trash-outline"></ion-icon>
+      Eliminar
+    </ion-button>
+    <ion-alert trigger="present-alert" [header]="alertText" [buttons]="alertButtons"></ion-alert>
+  </ion-buttons>
+</ion-toolbar>
+}
+
 <ion-content>
 
   <!-- Recipe Title -->

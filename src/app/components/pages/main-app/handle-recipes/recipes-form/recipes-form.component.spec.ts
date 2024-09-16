@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { CreateRecipieComponent } from './create-recipie.component';
+import { RecipesFormComponent } from './recipes-form.component';
 
-describe('CreateRecipieComponent', () => {
-  let component: CreateRecipieComponent;
-  let fixture: ComponentFixture<CreateRecipieComponent>;
+describe('RecipesFormComponent', () => {
+  let component: RecipesFormComponent;
+  let fixture: ComponentFixture<RecipesFormComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreateRecipieComponent ],
+      declarations: [ RecipesFormComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(CreateRecipieComponent);
+    fixture = TestBed.createComponent(RecipesFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
