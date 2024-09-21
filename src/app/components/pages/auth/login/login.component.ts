@@ -8,6 +8,8 @@ import { LoginRequest } from '../../../../core/model/auth/login/login-request';
 import { IonButton, IonIcon } from "@ionic/angular/standalone";
 import { Router, RouterLink } from '@angular/router';
 import { UtilsService } from '../../../../core/services/utils/utils.service';
+import { UserCredential } from '@angular/fire/auth';
+import { UsersService } from '../../../../core/services/users/users.service';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +25,7 @@ export class LoginComponent  implements OnInit {
     private loginService: LoginService,
     private utilsService: UtilsService,
     private router: Router,
+    private usersService: UsersService
   ) {
       addIcons({personAddOutline});
     }
@@ -35,7 +38,8 @@ export class LoginComponent  implements OnInit {
       next: (loading: HTMLIonLoadingElement) => {
         loading.present();
         this.loginService.login(loginRequest).subscribe({
-          next: () => {
+          next: (credentials: UserCredential) => {
+            this.usersService.setUser();
             this.router.navigate(['/'])
           },
           error: (error: Error) => {

@@ -8,6 +8,8 @@ import { IonIcon, IonButton } from "@ionic/angular/standalone";
 import { UserCredential } from 'firebase/auth';
 import { UsersService } from '../../../../core/services/users/users.service';
 import { Router } from '@angular/router';
+import { DocumentData, DocumentReference } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -33,8 +35,12 @@ export class RegisterComponent  implements OnInit {
         loading.present();
         this.registerService.register(request).subscribe({
           next: (response: UserCredential) => {            
-            this.addUser(request, response.user.uid);
-            this.router.navigate(['/']);
+            this.addUser(request, response.user.uid).subscribe({
+              next: (userDoc: DocumentData) => {
+                if (userDoc) this.usersService.setUser();
+                this.router.navigate(['/']);                
+              }
+            });
           }, 
           error: (error: Error) => {
             this.utilsService.presentToast({
@@ -51,14 +57,15 @@ export class RegisterComponent  implements OnInit {
     });
   }
 
-  addUser(request: RegisterRequest, uid: string): void {
-    this.usersService.addUser({
-      uid: uid,
+  addUser(request: RegisterRequest, uid: string): Observable<DocumentData> {
+    return this.usersService.addUser({
+      uid,
       firstname: request.firstname,
       lastname: request.lastname,
       userName: request.userName,
-      email: request.email
-    })
+      email: request.email,
+      favorites: []
+    });
   }
 
   ngOnInit() {}
