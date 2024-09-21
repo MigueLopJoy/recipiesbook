@@ -42,9 +42,14 @@
   <ion-img [src]="recipe.images[0]" alt="Recipe Image" class="recipe-image"></ion-img>
 
   <!-- Recipe Category -->
-  <ion-chip color="secondary" class="category-chip">
-    {{ recipe.category }}
-  </ion-chip>
+   <ion-item>
+    <ion-chip color="secondary" class="category-chip">
+      {{ recipe.category }}
+    </ion-chip>
+
+    <app-fav-button [recipeId]="recipe.id"></app-fav-button>
+    
+   </ion-item>
 
   <!-- Recipe Description -->
   <ion-card>

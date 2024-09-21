@@ -39,8 +39,11 @@ export class LoginComponent  implements OnInit {
         loading.present();
         this.loginService.login(loginRequest).subscribe({
           next: (credentials: UserCredential) => {
-            this.usersService.setUser();
-            this.router.navigate(['/'])
+            this.usersService.setUser().subscribe({
+              next: () => {
+                this.router.navigate(['/'])
+              }
+            });
           },
           error: (error: Error) => {
             this.utilsService.presentToast({

@@ -8,16 +8,16 @@ import { ShareRecipesService } from '../../../../core/services/share-data/share-
 import { User } from '../../../../core/model/users/user';
 import { User as AuthUser } from '@angular/fire/auth'
 import { UsersService } from '../../../../core/services/users/users.service';
-import { DocumentData, QueryDocumentSnapshot, QuerySnapshot } from 'firebase/firestore';
 import { AuthService } from '../../../../core/services/auth/auth.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { HttpParams } from '@angular/common/http';
 import { RecipesService } from '../../../../core/services/recipes/recipes.service';
+import { FavButtonComponent } from './fav-button/fav-button.component';
+import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-recipe-details',
   standalone: true,
-  imports: [IonAlert, IonButton, IonTitle, HeaderComponent, IonBackButton, IonButtons, IonToolbar, IonText, IonChip, IonAvatar, IonCardContent, IonCardTitle, IonCard, IonCardHeader, IonImg, IonContent, IonList, IonListHeader, IonItem, IonIcon, IonLabel, IonHeader, ],
+  imports: [IonAlert, IonButton, IonTitle, HeaderComponent, IonBackButton, IonButtons, IonToolbar, IonText, IonChip, IonAvatar, IonCardContent, IonCardTitle, IonCard, IonCardHeader, IonImg, IonContent, IonList, IonListHeader, IonItem, IonIcon, FavButtonComponent, IonLabel, IonHeader, ],
   templateUrl: './recipe-details.component.html',
   styleUrls: ['./recipe-details.component.scss'],
 })
@@ -31,7 +31,7 @@ export class RecipeDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private recipesService: RecipesService
   ) {
-    addIcons({leafOutline, checkmarkCircleOutline, trashOutline, createOutline, }); 
+    addIcons({leafOutline, checkmarkCircleOutline, trashOutline, createOutline }); 
   }
 
   title: string = "Recipe Details"
@@ -54,43 +54,35 @@ export class RecipeDetailsComponent implements OnInit {
   ];
   alertText: string = '¿Realmente desea eliminar esta receta?';
 
-  getRecipeId(): void{
-    this.route.paramMap.subscribe({
-      next: (params: ParamMap) => {
-        const recipeId: string | null = params.get('id');
-        if (recipeId) this.loadRecipe(recipeId);
-      }
-    })
+  getRecipeId(): Observable<string | null> {
+    return this.route.paramMap.pipe(
+      map((params: ParamMap) => {
+        return params.get('id');
+      })
+    );
   }
 
-  loadRecipe(recipeId: string) {
-    const recipe: StoredRecipe | undefined = this.shareRecipesService.findById(recipeId);
-      
-    if (recipe) {
-      this.recipe = recipe;
-      this.getAuthor();
-    } else this.router.navigate(['/']); 
+  loadRecipe() {
+    this.getRecipeId().subscribe({
+      next: (recipeId: string | null) => {
+        if (recipeId) {
+          const recipe: StoredRecipe | undefined = this.shareRecipesService.findById(recipeId);      
+          if (recipe) {
+            this.recipe = recipe;
+            this.getAuthor();
+          } else this.router.navigate(['/']); 
+        } else this.router.navigate(['/']);
+      }
+    })
   }
 
   getAuthor(): void {
-    this.userService.getUser(this.recipe.authorId).subscribe({
-      next: (res: QuerySnapshot) => {
-        let doc: QueryDocumentSnapshot = res.docs[0],
-          data: DocumentData = doc.data();
-        this.author = this.buildAuthor(data);
+    this.userService.getUserById(this.recipe.authorId).subscribe({
+      next: (author: User | null) => {
+        if (author) this.author = author;
         this.checkIfUserRecipe();
       }
     })
-  }
-
-  buildAuthor(data: DocumentData): User {
-    return {
-      uid: data['uid'],
-      firstname: data['firstname'],
-      lastname: data['lastname'],
-      userName: data['userName'],
-      email: data['email']
-    };
   }
 
   checkIfUserRecipe(): void {
@@ -115,6 +107,6 @@ export class RecipeDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getRecipeId();
+    this.loadRecipe();
   }
 }

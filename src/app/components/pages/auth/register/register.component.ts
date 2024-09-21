@@ -26,7 +26,8 @@ export class RegisterComponent  implements OnInit {
     private usersService: UsersService,
     private router: Router
   ) {
-      addIcons({}); }
+      addIcons({}); 
+    }
 
 
   register(request: RegisterRequest): void {
@@ -37,8 +38,9 @@ export class RegisterComponent  implements OnInit {
           next: (response: UserCredential) => {            
             this.addUser(request, response.user.uid).subscribe({
               next: (userDoc: DocumentData) => {
-                if (userDoc) this.usersService.setUser();
-                this.router.navigate(['/']);                
+                if (userDoc) this.usersService.setUser().subscribe({
+                  next: () => this.router.navigate(['/'])            
+                });
               }
             });
           }, 

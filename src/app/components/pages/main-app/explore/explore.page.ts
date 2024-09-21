@@ -18,7 +18,7 @@ export class ExplorePage  implements OnInit {
 
   constructor(
     private recipesService: RecipesService,
-    private shareRecipesService: ShareRecipesService
+    private shareRecipesService: ShareRecipesService,
   ) { }
 
   title: string = 'Explorar Recetas';

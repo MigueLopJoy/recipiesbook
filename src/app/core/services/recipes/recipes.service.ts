@@ -59,8 +59,7 @@ export class RecipesService {
   }
  
   removeRecipe(id: string): Observable<void> {
-    const recipeRef = doc(this.firestore, 'recipes', id)
-    return from(deleteDoc(recipeRef));
+    return from(deleteDoc(doc(this.recipesRef, id)));
   }
 
 }

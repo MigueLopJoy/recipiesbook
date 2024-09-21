@@ -1,8 +1,8 @@
-import { Injectable, Query } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { collection, doc, DocumentReference, Firestore, getDoc } from '@angular/fire/firestore';
 import { first, from, map, Observable, of, switchMap } from 'rxjs';
-import { addDoc, DocumentData, DocumentSnapshot, getDocs, query, QueryDocumentSnapshot, QuerySnapshot, where } from 'firebase/firestore';
-import { User } from '../../model/users/user';
+import { addDoc, CollectionReference, DocumentData, DocumentSnapshot, getDocs, query, QueryDocumentSnapshot, QuerySnapshot, where } from 'firebase/firestore';
+import { User, UserData } from '../../model/users/user';
 import { User as AuthUser } from '@angular/fire/auth';
 import { AuthService } from '../auth/auth.service';
 
@@ -17,21 +17,25 @@ export class UsersService {
   ) { }
 
   private user!: User;
-  private readonly usersRef = collection(this.firestore, 'users');
+  private readonly usersRef: CollectionReference = collection(this.firestore, 'users');
 
   public getUser(): User {
     return this.user;
   }
 
-  public setUser(): void {
-    this.getUserByAuth().subscribe({
-      next: (user: User | null) => {
-        if (user) this.user = user;
-      }
-    })
+  public getUserRef(): CollectionReference {
+    return this.usersRef;
   }
 
-  public addUser(body: User): Observable<DocumentReference> {
+  public setUser(): Observable<void> {
+    return this.getUserByAuth().pipe(
+      map((user: User | null) => {
+        if (user) this.user = user;
+      })
+    )
+  }
+
+  public addUser(body: UserData): Observable<DocumentReference> {
     return from(addDoc(this.usersRef, body));
   }
 
